@@ -1,0 +1,10 @@
+#home{
+    text-align: right;
+}
+#user_form_wrapper, #edit_form_wrapper{
+    text-align: center;
+
+}
+input{
+    margin: 5px;
+}

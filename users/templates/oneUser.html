@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Read (One)</title>
+</head>
+<body>
+    <div id="home">
+        <a href="/users">Return home</a>
+    </div>
+    <h1>User {{ user['idfriends'] }}</h1>
+    <p>Full Name: {{ user['first_name']}} {{ user['last_name']}}</p>
+    <p>Email: {{user['email']}}</p>
+    <p>Created at: {{user['created_at']}}</p>
+    <p>Updated at: {{user['updated_at']}}</p>
+    <br>
+    <a href="/users/{{user['idfriends']}}/edit">Edit</a>
+    | 
+    <a href="/users/{{user['idfriends']}}/destroy">Delete</a>
+</body>
+</html>
