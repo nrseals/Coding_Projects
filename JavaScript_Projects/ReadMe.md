@@ -13,3 +13,5 @@ secret message - practice with built in array methods.
 Whale speak - practice with nested loops. Converts string into "whale speak" where only vowels are used, and 'E' and 'U' are doubled
 
 team stats - practice creating nested objects 
+
+Library - class inheritance practice
