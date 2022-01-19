@@ -61,15 +61,20 @@ class User {
         const newAcc = new BankAccount(name = name)
         console.log("*********")
         console.log(`Created new account ${name} for ${this.name}`)
+        return this
     }
     makeDeposit(amount) {
         this.account.name.deposit(amount);
+        return this
     }
     makeWithdrawal(amount) {
         this.account.withdrawal(amount);
+        return this
     }
     displayUserBalance(){
         this.account.displayBalance();
+        return this
     }
 }
 const nathan = new User("Nathan", "seals@mail.com")
+nathan.createAccount.makeDeposit(100)

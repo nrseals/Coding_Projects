@@ -15,3 +15,5 @@ Whale speak - practice with nested loops. Converts string into "whale speak" whe
 team stats - practice creating nested objects 
 
 Library - class inheritance practice
+
+School Catalogue - more advanced JS Class/Inheritance practice 
