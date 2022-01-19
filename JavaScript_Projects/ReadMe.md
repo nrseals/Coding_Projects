@@ -17,3 +17,5 @@ team stats - practice creating nested objects
 Library - class inheritance practice
 
 School Catalogue - more advanced JS Class/Inheritance practice 
+
+Message Mixer - Module/Exports practice. Run commands in Node; $ node message-mixer.js [caesar | reverse | symbol] (caesar requires an additional number argumant). Examples: "node message-mixer.js caesar 4" "node message-mixer.js reverse". Also contains "super encrpytor" module that combines methods. Use "$ node super-encoder.js encode" to encode messages or "$ node super-encoder.js decode". 

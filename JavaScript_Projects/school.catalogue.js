@@ -49,13 +49,14 @@ class School {
       }
       get sportsTeams(){
         console.log(sportsTeams);
+        return this._sportsTeams;
       }
   }
-  const lorraineHansbury = new PrimarySchool(name = 'Lorrane Hansbury', numberOfStudents = 514, pickupPolicy = 'Students must be picked up by a parent, guardian, or a family member over the age of 13.');
+  const lorraineHansbury = new PrimarySchool('Lorrane Hansbury', numberOfStudents = 514, pickupPolicy = 'Students must be picked up by a parent, guardian, or a family member over the age of 13.');
   // console.log(lorraineHansbury)
   lorraineHansbury.quickFacts();
   School.pickSubstituteTeacher(['Jamal Crawford', 'Lou Williams', 'J. R. Smith', 'James Harden', 'Jason Terry', 'Manu Ginobli'])
   const alSmith = new HighSchool ('Al E. Smith', 415, ['Baseball', 'Basketball', 'Volleyball', 'Track and Field'])
   // alSmith.quickFacts()
-  console.log(alSmith._sportsTeams)
+  console.log(alSmith.sportsTeams)
   
