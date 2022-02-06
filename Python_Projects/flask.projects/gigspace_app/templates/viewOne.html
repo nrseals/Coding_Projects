@@ -27,11 +27,21 @@
         <p>Location: {{gig['location']}}</p>
         <p>Event Date: {{gig['date']}}</p>
         <p>Description: {{gig['description']}}</p>
+        <p>Creator: {{creator['name']}} </p>
+
+        {% if user not in attendees %}
         <a class="btn btn-sm btn-primary" href="/gigs/{{gig['id']}}/rsvp">RSVP</a>
+        {% else %}
+        <a class="btn btn-sm btn-primary" href="/gigs/{{gig['id']}}/un_rsvp">UN-RSVP</a>
+        {% endif %}
+
+        {% if gig['creator_id'] == user['id'] %}
         |
         <a class="btn btn-sm btn-outline-warning" href="/gigs/{{gig['id']}}/edit">Edit</a>
         |
         <a class="btn btn-sm btn-danger" href="/gigs/{{gig['id']}}/delete">Delete</a>
+        {% endif %}
+
     </div>
     <br>
     <div class="container">
