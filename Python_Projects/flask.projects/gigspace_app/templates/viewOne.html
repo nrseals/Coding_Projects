@@ -29,11 +29,11 @@
         <p>Description: {{gig['description']}}</p>
         <p>Creator: {{creator['name']}} </p>
 
-        {% if user not in attendees %}
+        {%if session.is_attending == False %}
         <a class="btn btn-sm btn-primary" href="/gigs/{{gig['id']}}/rsvp">RSVP</a>
-        {% else %}
+        {%else%}
         <a class="btn btn-sm btn-primary" href="/gigs/{{gig['id']}}/un_rsvp">UN-RSVP</a>
-        {% endif %}
+        {%endif%}
 
         {% if gig['creator_id'] == user['id'] %}
         |

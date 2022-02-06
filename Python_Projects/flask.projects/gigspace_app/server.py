@@ -84,6 +84,7 @@ def users_new():
 
     # add user_id to session
     session['user_id'] = user_id
+    session['is_attending'] = False
     print("*"*50)
     print(f"User id: {session['user_id']} added to session!")
     print("Redirecting to /gigs . . .")
@@ -191,6 +192,7 @@ def rsvp(id):
     # variable storing query inserting user_id and gig_ id into the rsvp table
     query = "INSERT INTO rsvp (users_id, gigs_id) VALUES (%(user_id)s, %(gigs_id)s)"
     mysql.query_db(query, data)
+    session['is_attending'] = True
     return redirect(f"/gigs/{id}")
 
 # Un-RSVP to gig
@@ -203,7 +205,8 @@ def un_rsvp(id):
         'gig_id': id
     }
     mysql.query_db(query, data)
-    return redirect(f"/users/{session['user_id']}")
+    session['is_attending'] = False
+    return redirect(f"/gigs/{id}")
 
 # Route to render user profile page
 @app.route("/users/<id>")
@@ -238,11 +241,14 @@ def viewOne(id):
         print(user[0]['name'])
         mysql = connectToMySQL(SCHEMA)
         attendees = mysql.query_db(
-            'SELECT users.name from rsvp JOIN users ON rsvp.users_id = users.id WHERE gigs_id = {}'.format(id))
+            'SELECT name from rsvp JOIN users ON rsvp.users_id = users.id WHERE gigs_id = {}'.format(id))
         # connnect to db and store creator object in variable
+        print("attendees")
+        print(attendees)
         mysql = connectToMySQL(SCHEMA)
         creator = mysql.query_db('SELECT * FROM users WHERE id = {}'.format(gig[0]['creator_id']))
-        print(creator[0]['name']);
+        print(creator[0]['name'])
+        # Create rsvp boolean and passs it into template
         return render_template('viewOne.html', gig=gig[0], user=user[0], creator = creator[0], attendees=attendees)
 
 # Render new gig form 
