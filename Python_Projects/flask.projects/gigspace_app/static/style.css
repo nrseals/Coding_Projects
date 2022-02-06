@@ -1,0 +1,23 @@
+
+#body, #login{
+    text-align: center;
+}
+#login, #register, #space {
+    flex: 1;
+}
+#wrapper{
+    display:flex;
+    padding-left: 250px;
+    padding-right: 250px;
+    justify-content: space space-around;
+}
+input{
+    margin: 5px;
+}
+#new, #errors, #edit{
+    padding-left: 250px;
+    padding-right: 250px;
+}
+#main_nav{
+    margin-top: 10px;
+}
