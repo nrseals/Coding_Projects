@@ -8,6 +8,23 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Success!</h1>
+    <div id="nav">
+        <a id="home" href="/">Dojo Tweets</a>
+        <!-- Make name a link to profile -->
+        <a id="name">Welcome {{user['first_name']}} {{user['last_name']}}</a>
+        <a id="logout" href="/logout">Logout</a>
+    </div>
+    <div id="tweet_form">
+        <form action="/tweets/create" method="POST">
+            <label for="tweet">Write a Tweet:</label>
+            <input type="text-area" name="body">
+            <input type="submit" value="Tweet!">
+        </form>
+    </div>
+    <div id="feed">
+        {% for tweet in tweets %}
+        <p>{{tweet.first_name}} says: {{tweet.body}}</p>
+        {% endfor %}
+    </div>
 </body>
 </html>

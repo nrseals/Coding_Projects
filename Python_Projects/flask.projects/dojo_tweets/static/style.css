@@ -1,7 +1,6 @@
 *{
     padding: 0px;
     margin: 0px, auto;
-
 }
 #wrapper{
     background-color: aliceblue;
@@ -13,4 +12,25 @@
 }
 label, input{
     margin: 5px;
+}
+a:hover{
+    color: blanchedalmond;
+}
+a:link, a:visited{
+    color: lightblue;
+}
+#nav{
+    background-color: navy;
+    color: blanchedalmond;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    border-bottom: 10px, double, solid, black;
+    height: 75px;
+}
+#home{
+    flex: 4
+}
+#logout, #name{
+    flex: 1
 }

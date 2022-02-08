@@ -128,10 +128,36 @@ def login():
             flash("Please use a valid email address")
             return redirect("/")
 
+#Logout - clears session 
+@app.route("/logout")
+def logout():
+    session.clear
+    return redirect("/")
+
 #Homepage
 @app.route('/tweets')
 def tweets():
-    return render_template("tweets.html") 
+    # connect to db, retrive user object from db using the session id
+    db = connectToMySQL(SCHEMA)
+    data = {
+        's': session['user_id']
+    }
+    query = "SELECT * from users WHERE id = %(s)s" #even though this is only one object, it's given to us in a list from SQL. Must be accessed with syntax "user[0]"
+    user = db.query_db(query, data)
+    # connect to db retrieve tweets with their username from db
+    db = connectToMySQL(SCHEMA)
+    query = "SELECT users.first_name, tweets.created_at, tweets.body, tweets.created_at FROM tweets JOIN users ON tweets.users_id = users.id ORDER BY tweets.created_at DESC"
+    tweets = db.query_db(query, data)
+    print(tweets)
+    return render_template("tweets.html", user = user[0], tweets = tweets) 
 
+# Tweet Creation
+
+
+
+
+
+
+#End of routes, initalize Flask app
 if __name__ == "__main__":
     app.run(debug=True)
