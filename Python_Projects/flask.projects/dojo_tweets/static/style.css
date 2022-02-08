@@ -1,0 +1,16 @@
+*{
+    padding: 0px;
+    margin: 0px, auto;
+
+}
+#wrapper{
+    background-color: aliceblue;
+
+}
+#login, #register{
+    text-align: center;
+    margin-top: 200px;
+}
+label, input{
+    margin: 5px;
+}
