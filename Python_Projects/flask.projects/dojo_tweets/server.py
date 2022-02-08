@@ -137,7 +137,12 @@ def logout():
 #Homepage
 @app.route('/tweets')
 def tweets():
+    # If user is not logged in, redirect to index
+    if 'user_id' not in session:
+        flash("Please log in to view Tweets")
+        return redirect("/")
     # connect to db, retrive user object from db using the session id
+
     db = connectToMySQL(SCHEMA)
     data = {
         's': session['user_id']
@@ -152,10 +157,28 @@ def tweets():
     return render_template("tweets.html", user = user[0], tweets = tweets) 
 
 # Tweet Creation
-
-
-
-
+@app.route("/tweets/create", methods = ['POST'])
+def saveTweet():
+    if 'user_id' not in session:
+        return redirect("/")
+    #validate
+    valid = True
+    if len(request.form['body']) < 1:
+        valid = False
+        flash("Tweet cannot be blank")
+    if len(request.form['body']) > 250:
+        valid = False
+        flash("Tweet cannot have more than 250 characters")
+    #connect to db, insert query, redirect
+    if valid:
+        db = connectToMySQL(SCHEMA)
+        data = {
+            'id': session['user_id'],
+            'b': request.form['body']
+        }
+        query = "INSERT INTO tweets (body, users_id) VALUES (%(b)s, %(id)s )"
+        tweet = db.query_db(query, data)
+        return redirect("/tweets")
 
 
 #End of routes, initalize Flask app

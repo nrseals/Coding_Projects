@@ -13,18 +13,15 @@
 label, input{
     margin: 5px;
 }
-a:hover{
-    color: blanchedalmond;
-}
 a:link, a:visited{
-    color: lightblue;
+    color: navy
 }
 #nav{
-    background-color: navy;
-    color: blanchedalmond;
+    background-color: aliceblue;
+    color: navy;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 0px;
     border-bottom: 10px, double, solid, black;
     height: 75px;
 }
