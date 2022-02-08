@@ -131,7 +131,7 @@ def login():
 #Logout - clears session 
 @app.route("/logout")
 def logout():
-    session.clear
+    session.clear()
     return redirect("/")
 
 #Homepage
