@@ -19,8 +19,8 @@ class MySQLConnection:
                 query = cursor.mogrify(query, data)
                 print("*"*50)
                 print("Running Query:", query)
-     
-                executable = cursor.execute(query, data)
+
+                executable = cursor.excecute(query, data)
                 if query.lower().find("insert") >= 0:
                     # INSERT queries will return the ID NUMBER of the row inserted
                     self.connection.commit()
