@@ -255,6 +255,53 @@ def delete_tweet(tweet_id):
     mysql.query_db(query, data)
     return redirect("/tweets")
 
+#Edit tweet
+@app.route("/tweets/<tweet_id>/edit")
+def editTweet(tweet_id):
+    # protect route - user must be signed in
+    if 'user_id' not in session:
+        return redirect("/")
+    #load user
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'user_id': session['user_id']
+    }
+    query = "SELECT * FROM users WHERE id = %(user_id)s;"
+    user = db.query_db(query, data)
+    
+    # load tweet from db
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'tweet_id': tweet_id,
+    }
+    query = "SELECT * FROM tweets WHERE id = %(tweet_id)s"
+    tweet = db.query_db(query, data)
+    #return template
+    return render_template("edit.html", tweet = tweet[0], user = user[0])
+
+#Update tweet
+@app.route("/tweets/<tweet_id>/update", methods = ["POST"])
+def updateTweet(tweet_id):
+    #validate inputs
+    valid = True
+    if len(request.form['body']) < 1:
+        valid = False
+        flash("Tweet cannot be blank")
+    if len(request.form['body']) > 250:
+        valid = False
+        flash("Tweet cannot have more than 250 characters")
+    #update info in db
+    if valid:
+        db = connectToMySQL(SCHEMA)
+        data = {
+            'body': request.form['body'],
+            'tweet_id': tweet_id,
+        }
+        query = "UPDATE tweets SET body = (%(body)s) WHERE id = %(tweet_id)s;"
+        update = db.query_db(query, data)
+        flash("Update Successful")
+        return redirect ("/tweets")
+
 # End of routes, initalize Flask app
 if __name__ == "__main__":
     app.run(debug=True)
