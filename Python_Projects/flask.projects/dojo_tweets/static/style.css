@@ -1,7 +1,4 @@
-*{
-    padding: 0px;
-    margin: 0px, auto;
-}
+
 #wrapper{
     background-color: aliceblue;
 
@@ -17,7 +14,7 @@ a:link, a:visited{
     color: navy
 }
 #nav{
-    background-color: aliceblue;
+    background-color: skyblue;
     color: navy;
     display: flex;
     align-items: center;
@@ -30,4 +27,25 @@ a:link, a:visited{
 }
 #logout, #name{
     flex: 1
+}
+#tweet_form{
+    max-height: 50px;
+    text-align: center;
+    background-color: lightskyblue
+
+}
+#form{
+    vertical-align: center;
+}
+#feed{
+    display: inline-block;
+    justify-content: center;
+
+}
+#post{
+    text-align: start;
+    background-color: white;
+}
+#main{
+    text-align: center;
 }

@@ -2,6 +2,7 @@ import re
 from flask import Flask, render_template, redirect, request, session, flash
 from flask_bcrypt import Bcrypt
 from mysqlconnection import connectToMySQL
+from datetime import datetime
 
 SCHEMA = "dojo_tweets"
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -14,16 +15,22 @@ app.secret_key = "asdfqwerzxcv"
 # Routes
 
 # Index route, login
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 # Registration form
+
+
 @app.route("/register")
 def register():
     return render_template("register.html")
 
 # Validate new user and add to db
+
+
 @app.route("/users/new", methods=['POST'])
 def createUser():
     valid = True
@@ -82,6 +89,8 @@ def createUser():
     return redirect('/')
 
 # Login - validate user input. if successfull, add info to session and redirect to homepage, if not, redirect to index with flash errors
+
+
 @app.route("/users/login", methods=['POST'])
 def login():
     # Validate user input
@@ -93,10 +102,10 @@ def login():
     if len(request.form['password']) < 1:
         is_valid = False
         flash("Please enter your password")
-    #If not valid, return to index
+    # If not valid, return to index
     if not valid:
         return redirect("/")
-    #If length is valid, compare input to db and validate
+    # If length is valid, compare input to db and validate
     else:
         # query db to see if user email exists
         db = connectToMySQL(SCHEMA)
@@ -104,7 +113,7 @@ def login():
             'em': request.form['email']
         }
         query = "SELECT * FROM users WHERE email = %(em)s;"
-        #Result of Query is a List of dictonaries. Because email must be unique, there should only be one object that we store in the user variable
+        # Result of Query is a List of dictonaries. Because email must be unique, there should only be one object that we store in the user variable
         user = db.query_db(query, data)
         # if user email exists and is unique then check pw
         if user:
@@ -120,7 +129,7 @@ def login():
                 print(
                     f'Login successful! User {user_id} added to session. Redirecting . . .')
                 return redirect("/tweets")
-            else: 
+            else:
                 flash("Password is invalid")
                 return redirect("/")
         # If email check fails
@@ -128,13 +137,17 @@ def login():
             flash("Please use a valid email address")
             return redirect("/")
 
-#Logout - clears session 
+# Logout - clears session
+
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-#Homepage
+# Homepage
+
+
 @app.route('/tweets')
 def tweets():
     # If user is not logged in, redirect to index
@@ -147,13 +160,33 @@ def tweets():
     data = {
         's': session['user_id']
     }
-    query = "SELECT * from users WHERE id = %(s)s" #even though this is only one object, it's given to us in a list from SQL. Must be accessed with syntax "user[0]"
+    # even though this is only one object, it's given to us in a list from SQL. Must be accessed with syntax "user[0]"
+    query = "SELECT * from users WHERE id = %(s)s"
     user = db.query_db(query, data)
     # connect to db retrieve tweets with their username from db
     db = connectToMySQL(SCHEMA)
-    query = "SELECT users.first_name, tweets.created_at, tweets.body, tweets.created_at FROM tweets JOIN users ON tweets.users_id = users.id ORDER BY tweets.created_at DESC"
-    tweets = db.query_db(query, data)
-    print(tweets)
+    query = "SELECT tweets.users_id, tweets.id as tweet_id, users.first_name, users.last_name, tweets.body, tweets.created_at, COUNT(tweets_id) as times_liked FROM liked_tweets RIGHT JOIN tweets ON tweets.id = liked_tweets.tweets_id JOIN users ON tweets.users_id = users.id  GROUP BY tweets.id ORDER BY tweets.created_at DESC"
+    tweets = db.query_db(query)
+
+    db = connectToMySQL(SCHEMA)
+    query = "SELECT * FROM liked_tweets WHERE users_id = %(user_id)s"
+    data = {
+        'user_id': session['user_id']
+    }
+    liked_tweets = [tweet['tweets_id'] for tweet in db.query_db(query, data)]
+    for tweet in tweets:
+        print(datetime.now())
+        time_since_posted = datetime.now() - tweet['created_at']
+        days = time_since_posted.days
+        hours = time_since_posted.seconds//3600 
+        minutes = (time_since_posted.seconds//60)%60
+        if tweet['tweet_id'] in liked_tweets:
+            tweet['already_liked'] = True
+        else:
+            tweet['already_liked'] = False
+
+        tweet['time_since_posted'] = (days, hours, minutes)
+
     return render_template("tweets.html", user = user[0], tweets = tweets) 
 
 # Tweet Creation
@@ -161,7 +194,7 @@ def tweets():
 def saveTweet():
     if 'user_id' not in session:
         return redirect("/")
-    #validate
+    # validate
     valid = True
     if len(request.form['body']) < 1:
         valid = False
@@ -169,7 +202,7 @@ def saveTweet():
     if len(request.form['body']) > 250:
         valid = False
         flash("Tweet cannot have more than 250 characters")
-    #connect to db, insert query, redirect
+    # connect to db, insert query, redirect
     if valid:
         db = connectToMySQL(SCHEMA)
         data = {
@@ -180,7 +213,48 @@ def saveTweet():
         tweet = db.query_db(query, data)
         return redirect("/tweets")
 
+# Add Like
+@app.route("/tweets/<tweet_id>/add_like")
+def addLike(tweet_id):
+        # connect to db
+        db = connectToMySQL(SCHEMA)
+        data = {
+            'user_id': session['user_id'],
+            'tweet_id': tweet_id,
+        }
+        query = "INSERT INTO liked_tweets (users_id, tweets_id) VALUES (%(user_id)s, %(tweet_id)s)"
+        like = db.query_db(query, data)
+        return redirect ("/tweets")
 
-#End of routes, initalize Flask app
+# App unlike
+@app.route("/tweets/<tweet_id>/unlike")
+def unlike_tweet(tweet_id):
+    query = "DELETE FROM liked_tweets WHERE users_id = %(user_id)s AND tweets_id = %(tweet_id)s"
+    data = {
+        'user_id': session['user_id'],
+        'tweet_id': tweet_id
+    }
+    mysql = connectToMySQL('dojo_tweets')
+    mysql.query_db(query, data)
+    return redirect("/tweets")
+
+# Delete tweet
+@app.route("/tweets/<tweet_id>/delete")
+def delete_tweet(tweet_id):
+
+    # if ON DELETE CASCADE is not set up for tweets DELETE likes first
+    query = "DELETE FROM liked_tweets WHERE tweets_id = %(tweet_id)s"
+    data = {
+        'tweet_id': tweet_id
+    }
+    mysql = connectToMySQL('dojo_tweets')
+    mysql.query_db(query, data)
+
+    query = "DELETE FROM tweets WHERE id = %(tweet_id)s"
+    mysql = connectToMySQL('dojo_tweets')
+    mysql.query_db(query, data)
+    return redirect("/tweets")
+
+# End of routes, initalize Flask app
 if __name__ == "__main__":
     app.run(debug=True)
