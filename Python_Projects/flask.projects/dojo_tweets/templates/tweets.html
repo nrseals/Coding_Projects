@@ -15,9 +15,10 @@
             <a id="home" href="/tweets">
                 <h1>Dojo Tweets</h1>
             </a>
-            <a id="name">
+            <a id ="users" href="/users">Users</a>
+            <div id="name">
                 <h3>Welcome, {{user['first_name']}} {{user['last_name']}}</h3>
-            </a>
+            </div>
             <a id="logout" href="/logout">Logout</a>
         </div>
         <div id="main">
@@ -62,7 +63,7 @@
                     {% endwith %}
                     <form id="form" action="tweets/create" method="POST">
                         <label>Write a Tweet:</label>
-                        <input type="text" style="height: 30px; width: 400px; margin-top: 5px;" name="body"></textarea>
+                        <input type="tex" style="height: 30px; width: 400px; margin-top: 5px;" name="body"></textarea>
                         <input type="submit" value="Tweet!">
                     </form>
                 </div>

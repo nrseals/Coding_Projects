@@ -25,7 +25,7 @@ a:link, a:visited{
 #home{
     flex: 4
 }
-#logout, #name{
+#logout, #name, #users{
     flex: 1
 }
 #tweet_form{

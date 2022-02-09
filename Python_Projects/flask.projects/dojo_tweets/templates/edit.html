@@ -25,6 +25,7 @@
                 <label>Edit Tweet:</label>
                 <input type="text" style="height: 30px; width: 400px; margin-top: 5px;" name="body" value="{{tweet.body}}"></textarea>
                 <input type="submit" value="Update">
+                <a href="/tweets"><button>Cancel</button></a>
             </form>
             {% with messages = get_flashed_messages() %}
             {% if messages %}

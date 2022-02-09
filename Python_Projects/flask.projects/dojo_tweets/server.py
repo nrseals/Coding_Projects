@@ -178,8 +178,8 @@ def tweets():
         print(datetime.now())
         time_since_posted = datetime.now() - tweet['created_at']
         days = time_since_posted.days
-        hours = time_since_posted.seconds//3600 
-        minutes = (time_since_posted.seconds//60)%60
+        hours = time_since_posted.seconds//3600
+        minutes = (time_since_posted.seconds//60) % 60
         if tweet['tweet_id'] in liked_tweets:
             tweet['already_liked'] = True
         else:
@@ -187,10 +187,12 @@ def tweets():
 
         tweet['time_since_posted'] = (days, hours, minutes)
 
-    return render_template("tweets.html", user = user[0], tweets = tweets) 
+    return render_template("tweets.html", user=user[0], tweets=tweets)
 
 # Tweet Creation
-@app.route("/tweets/create", methods = ['POST'])
+
+
+@app.route("/tweets/create", methods=['POST'])
 def saveTweet():
     if 'user_id' not in session:
         return redirect("/")
@@ -214,19 +216,23 @@ def saveTweet():
         return redirect("/tweets")
 
 # Add Like
+
+
 @app.route("/tweets/<tweet_id>/add_like")
 def addLike(tweet_id):
-        # connect to db
-        db = connectToMySQL(SCHEMA)
-        data = {
-            'user_id': session['user_id'],
-            'tweet_id': tweet_id,
-        }
-        query = "INSERT INTO liked_tweets (users_id, tweets_id) VALUES (%(user_id)s, %(tweet_id)s)"
-        like = db.query_db(query, data)
-        return redirect ("/tweets")
+    # connect to db
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'user_id': session['user_id'],
+        'tweet_id': tweet_id,
+    }
+    query = "INSERT INTO liked_tweets (users_id, tweets_id) VALUES (%(user_id)s, %(tweet_id)s)"
+    like = db.query_db(query, data)
+    return redirect("/tweets")
 
 # App unlike
+
+
 @app.route("/tweets/<tweet_id>/unlike")
 def unlike_tweet(tweet_id):
     query = "DELETE FROM liked_tweets WHERE users_id = %(user_id)s AND tweets_id = %(tweet_id)s"
@@ -239,6 +245,8 @@ def unlike_tweet(tweet_id):
     return redirect("/tweets")
 
 # Delete tweet
+
+
 @app.route("/tweets/<tweet_id>/delete")
 def delete_tweet(tweet_id):
 
@@ -255,20 +263,22 @@ def delete_tweet(tweet_id):
     mysql.query_db(query, data)
     return redirect("/tweets")
 
-#Edit tweet
+# Edit tweet
+
+
 @app.route("/tweets/<tweet_id>/edit")
 def editTweet(tweet_id):
     # protect route - user must be signed in
     if 'user_id' not in session:
         return redirect("/")
-    #load user
+    # load user
     db = connectToMySQL(SCHEMA)
     data = {
         'user_id': session['user_id']
     }
     query = "SELECT * FROM users WHERE id = %(user_id)s;"
     user = db.query_db(query, data)
-    
+
     # load tweet from db
     db = connectToMySQL(SCHEMA)
     data = {
@@ -276,13 +286,15 @@ def editTweet(tweet_id):
     }
     query = "SELECT * FROM tweets WHERE id = %(tweet_id)s"
     tweet = db.query_db(query, data)
-    #return template
-    return render_template("edit.html", tweet = tweet[0], user = user[0])
+    # return template
+    return render_template("edit.html", tweet=tweet[0], user=user[0])
 
-#Update tweet
-@app.route("/tweets/<tweet_id>/update", methods = ["POST"])
+# Update tweet
+
+
+@app.route("/tweets/<tweet_id>/update", methods=["POST"])
 def updateTweet(tweet_id):
-    #validate inputs
+    # validate inputs
     valid = True
     if len(request.form['body']) < 1:
         valid = False
@@ -290,7 +302,7 @@ def updateTweet(tweet_id):
     if len(request.form['body']) > 250:
         valid = False
         flash("Tweet cannot have more than 250 characters")
-    #update info in db
+    # update info in db
     if valid:
         db = connectToMySQL(SCHEMA)
         data = {
@@ -299,8 +311,27 @@ def updateTweet(tweet_id):
         }
         query = "UPDATE tweets SET body = (%(body)s) WHERE id = %(tweet_id)s;"
         update = db.query_db(query, data)
-        flash("Update Successful")
-        return redirect ("/tweets")
+        return redirect("/tweets")
+
+#Users page
+@app.route("/users")
+def users():
+    #protected route
+    if 'user_id' not in session:
+        return redirect("/")
+    #query logged user
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'logged_id': session['user_id']
+    }
+    query = "SELECT * FROM users WHERE id = %(logged_id)s "
+    logged_user = db.query_db(query, data)
+    #query db for all users
+    db = connectToMySQL(SCHEMA)
+    query = "SELECT * FROM users"
+    users = db.query_db(query)
+    #render template
+    return render_template("/users.html", users = users, logged_user = logged_user[0])
 
 # End of routes, initalize Flask app
 if __name__ == "__main__":
