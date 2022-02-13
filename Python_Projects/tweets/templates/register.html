@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dojo Tweets</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="register">
+            <h2>Register new user</h2>
+            <form action="/users/new" method="post">
+                <label for="fname">First Name</label>
+                <input name="fname" type="text">
+                <br>
+                <label for="lname">Last Name</label>
+                <input name="lname" type="text">
+                <br>
+                <label for="email">Email</label>
+                <input name="email" type="email">
+                <br>
+                <label for="pw">Password</label>
+                <input name="pw" type="password">
+                <br>
+                <label for="confirmPw">Confirm Password</label>
+                <input type="password" name="confirm_pw">
+                <br>
+                <input type="submit" value="Register!">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

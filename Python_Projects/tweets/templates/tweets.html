@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dojo Tweets</title>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="nav">
+            <a id="home" href="/tweets">
+                <h1>Dojo Tweets</h1>
+            </a>
+            <a id ="users" href="/users">Users</a>
+            <div id="name">
+                <h3>Welcome, {{user['first_name']}} {{user['last_name']}}</h3>
+            </div>
+            <a id="logout" href="/logout">Logout</a>
+        </div>
+        <div id="main">
+            <div id="feed">
+                <br>
+                {% for tweet in tweets %}
+                <div id="post">
+                    <p><strong>{{tweet.first_name}} {{tweet.last_name}}</strong> says: {{tweet.body}}</p>
+                    <em>
+                        <!-- python templating, conditional check for existing tweets -->
+                        {% if tweet.time_since_posted[0] %}
+                        <!-- checks for timestamp values from line 159 of sever.py -->
+                        {{tweet.time_since_posted[0]}} days
+                        {% elif tweet.time_since_posted[1] %}
+                        {{tweet.time_since_posted[1]}} hours
+                        {% elif tweet.time_since_posted[2] %}
+                        {{tweet.time_since_posted[2]}} minutes
+                        {% else %}
+                        less than a minute
+                        {% endif%}
+                        ago
+                    </em>
+                    {% if tweet.already_liked %}
+                    <a href='/tweets/{{tweet.tweet_id}}/unlike'><button>Unlike Tweet</button></a>
+                    {% else %}
+                    <a href='/tweets/{{tweet.tweet_id}}/add_like'><button>Like Tweet</button></a>
+                    {% endif %}
+                    {% if session['user_id'] == tweet.users_id %}
+                    <a href='/tweets/{{tweet.tweet_id}}/delete'><button>Delete Tweet</button></a>
+                    <a href='/tweets/{{tweet.tweet_id}}/edit'><button>Edit Tweet</button></a>
+                    {% endif %}
+                    <p style="margin-bottom: 10px">This tweet has been liked {{tweet.times_liked}} times.</p>
+                </div>
+                {% endfor %}
+                <div id="tweet_form">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <form id="form" action="tweets/create" method="POST">
+                        <label>Write a Tweet:</label>
+                        <input type="tex" style="height: 30px; width: 400px; margin-top: 5px;" name="body"></textarea>
+                        <input type="submit" value="Tweet!">
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

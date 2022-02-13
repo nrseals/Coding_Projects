@@ -1,0 +1,50 @@
+#wrapper{
+    background-color: aliceblue;
+
+}
+#login, #register{
+    text-align: center;
+    margin-top: 200px;
+}
+label, input{
+    margin: 5px;
+}
+a:link, a:visited{
+    color: navy
+}
+#nav{
+    background-color: skyblue;
+    color: navy;
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+    border-bottom: 10px, double, solid, black;
+    height: 75px;
+}
+#home{
+    flex: 4
+}
+#logout, #name, #users{
+    flex: 1
+}
+#tweet_form{
+    max-height: 50px;
+    text-align: center;
+    background-color: lightskyblue
+
+}
+#form{
+    vertical-align: center;
+}
+#feed{
+    display: inline-block;
+    justify-content: center;
+
+}
+#post{
+    text-align: start;
+    background-color: white;
+}
+#main{
+    text-align: center;
+}
