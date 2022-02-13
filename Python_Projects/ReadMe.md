@@ -6,7 +6,7 @@ Wish - Final exam for Python Stack at coding dojo. A full stack application usin
 
 gigspace - personal event planning application using Flask. 
 
-dojo_tweets - a simple recreation of twitter using Flask/MySQL. Users can login/register, create tweets, read and Like/Unlike other user's tweets, edit or delete tweets (if they are the author)
+tweets - a simple recreation of twitter using Flask/MySQL. Users can login/register, create tweets, read and Like/Unlike other user's tweets, edit or delete tweets (if they are the author)
 
 modularizing - practice with importing modules in python
 
