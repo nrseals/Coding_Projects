@@ -313,25 +313,28 @@ def updateTweet(tweet_id):
         update = db.query_db(query, data)
         return redirect("/tweets")
 
-#Users page
+# Users page
+
+
 @app.route("/users")
 def users():
-    #protected route
+    # protected route
     if 'user_id' not in session:
         return redirect("/")
-    #query logged user
+    # query logged user
     db = connectToMySQL(SCHEMA)
     data = {
         'logged_id': session['user_id']
     }
     query = "SELECT * FROM users WHERE id = %(logged_id)s "
     logged_user = db.query_db(query, data)
-    #query db for all users
+    # query db for all users
     db = connectToMySQL(SCHEMA)
     query = "SELECT * FROM users"
     users = db.query_db(query)
-    #render template
-    return render_template("/users.html", users = users, logged_user = logged_user[0])
+    # render template
+    return render_template("/users.html", users=users, logged_user=logged_user[0])
+
 
 # End of routes, initalize Flask app
 if __name__ == "__main__":
