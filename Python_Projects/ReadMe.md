@@ -11,3 +11,5 @@ tweets - a simple recreation of twitter using Flask/MySQL. Users can login/regis
 modularizing - practice with importing modules in python
 
 Store and products - pracitce with OOP and writing Classes in python. This will server as some of the backend logic for a full-stack application. 
+
+eCommerce app - personal project. a virutal storefront built using Python with Flask. Leveling up my FullStack Skills. 
