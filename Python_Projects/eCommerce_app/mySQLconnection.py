@@ -2,8 +2,6 @@
 import pymysql.cursors
 
 # create class that gives instance of a connection to db. We will call functions from this class in our server file
-
-
 class MySQLConnection:
     # Constructor, takes in Schema name which we provide when the class is initialized in our server file
     def __init__(self, db):
@@ -17,7 +15,6 @@ class MySQLConnection:
             autocommit=True
         )
         self.connection = connection
-    
 # method to query db
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
@@ -46,6 +43,7 @@ class MySQLConnection:
                 # close connection
                 self.connection.close()
 
-# this function recieves db and uses it to create an instance of the MySQL connection
+
+# this function takes in the name of the db and uses it to create an instance of the MySQL connection class
 def connectToMySQL(db):
     return MySQLConnection(db)
