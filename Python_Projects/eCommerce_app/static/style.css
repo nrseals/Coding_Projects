@@ -21,4 +21,13 @@ padding: 20px;
     min-height: 100px;
     padding-top: 50px;
 }
-
+#header{
+    min-height: 50px;
+    outline: double black 2px;
+    background-color: azure;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+#logout-btn{
+    margin-left: 700px;
+}

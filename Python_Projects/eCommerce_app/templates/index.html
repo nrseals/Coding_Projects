@@ -23,6 +23,15 @@
                 <br/>
                 <a href="/users/register">New user? Sign up here!</a>
             </form>
+            <div class="error_msg">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            </div>
         </div>
     </div>
 </body>

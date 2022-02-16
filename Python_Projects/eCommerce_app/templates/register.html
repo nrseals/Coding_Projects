@@ -12,7 +12,7 @@
         <div id="registraion">
             <h1>Sign Up!</h1>
             <br/>
-            <form class="reg-form" action="/users/create" method="post">
+            <form class="reg-form" action="/users/new" method="post">
                 <label for="fname">First Name: </label>
                 <input name="fname" type="text">
                 <br/>
@@ -33,13 +33,22 @@
                 <input type="password" name="pw">
                 <br/>
                 <br/>
-                <label for="confirm-pw">Confirm Password: </label>
-                <input type="email" name="confirm-pw">
+                <label for="confirm_pw">Confirm Password: </label>
+                <input type="password" name="confirm_pw">
                 <br/>
                 <br/>
                 <input type="submit" value="Register!">
                 <a href="/">Go Back</a>
             </form>
+            <div class="error_msg">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            </div>
         </div> 
     </div>
 </body>
