@@ -18,3 +18,16 @@ app.secret_key = "asdfqwerzxcv"
 
 # Begin Routes
 
+# Index Route, Login Page
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+# Registration Page
+@app.route("/users/register")
+def register():
+    return render_template("register.html")
+
+# Run Flask App
+if __name__ == "__main__":
+    app.run(debug=True)
