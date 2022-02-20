@@ -11,11 +11,11 @@ padding: 20px;
 }
 #login, #registraion{
     min-height: 200px;
-    width: 500px;
+    padding: 10px;
     background-color: aliceblue;
     outline: double black 2px;
     text-align: center;
-    margin: 150px 225px 
+    margin: 100px;
 }
 .login-form{
     min-height: 100px;
