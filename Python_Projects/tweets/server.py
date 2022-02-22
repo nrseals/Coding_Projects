@@ -310,7 +310,7 @@ def updateTweet(tweet_id):
             'tweet_id': tweet_id,
         }
         query = "UPDATE tweets SET body = (%(body)s) WHERE id = %(tweet_id)s;"
-        update = db.query_db(query, data)
+        db.query_db(query, data)
         return redirect("/tweets")
 
 # Users page
@@ -334,6 +334,51 @@ def users():
     users = db.query_db(query)
     # render template
     return render_template("/users.html", users=users, logged_user=logged_user[0])
+
+# Follow user
+@app.route("/users/<user_id>/follow")
+def follow(user_id):
+    # protected route
+    if 'user_id' not in session:
+        return redirect("/")
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'uid': session['user_id'],
+        'uid2': user_id
+    }
+    query = "INSERT INTO followed_users (user_following, user_being_followed) VALUES (%(uid)s, %(uid2)s)"
+    db.query_db(query, data)
+    return redirect("/tweets")
+
+# User Profile
+@app.route("/users/<user_id>")
+def userProfile(user_id):
+    # protected route
+    if 'user_id' not in session:
+        return redirect("/")
+        # query logged user
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'logged_id': session['user_id']
+    }
+    query = "SELECT * FROM users WHERE id = %(logged_id)s "
+    logged_user = db.query_db(query, data)
+    # query user using id from route
+    db = connectToMySQL(SCHEMA)
+    data = {
+        'user_id': user_id
+    }
+    query = "SELECT * FROM users WHERE id = %(user_id)s"
+    user = db.query_db(query, data)
+    # query followers
+    db = connectToMySQL(SCHEMA)
+    data = {
+        "user_id": user_id
+    }
+    query = "SELECT being_followed.id, being_followed.first_name, being_followed.last_name FROM followed_users LEFT JOIN users on followed_users.user_following = users.id LEFT JOIN users as being_followed on followed_users.user_being_followed = being_followed.id WHERE followed_users.user_following = %(user_id)s"
+    followers = db.query_db(query, data)
+    return render_template("user_profile.html", user = user[0], logged_user = logged_user[0], followers = followers)
+
 
 
 # End of routes, initalize Flask app

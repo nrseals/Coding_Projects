@@ -17,7 +17,7 @@
             </a>
             <a id ="users" href="/users">Users</a>
             <div id="name">
-                <h3>Welcome, {{user['first_name']}} {{user['last_name']}}</h3>
+                <a href="/users/{{user['id']}}"><h3>Welcome, {{user['first_name']}} {{user['last_name']}}</h3></a>
             </div>
             <a id="logout" href="/logout">Logout</a>
         </div>
@@ -26,7 +26,7 @@
                 <br>
                 {% for tweet in tweets %}
                 <div id="post">
-                    <p><strong>{{tweet.first_name}} {{tweet.last_name}}</strong> says: {{tweet.body}}</p>
+                    <a href="/users/{{tweet.users_id}}"><p><strong>{{tweet.first_name}} {{tweet.last_name}}</a></strong> says: {{tweet.body}}</p>
                     <em>
                         <!-- python templating, conditional check for existing tweets -->
                         {% if tweet.time_since_posted[0] %}
@@ -50,7 +50,7 @@
                     <a href='/tweets/{{tweet.tweet_id}}/delete'><button>Delete Tweet</button></a>
                     <a href='/tweets/{{tweet.tweet_id}}/edit'><button>Edit Tweet</button></a>
                     {% endif %}
-                    <p style="margin-bottom: 10px">This tweet has been liked {{tweet.times_liked}} times.</p>
+                    <p style="margin-bottom: 10px">This tweet has been liked {{tweet.times_liked}} time(s).</p>
                 </div>
                 {% endfor %}
                 <div id="tweet_form">

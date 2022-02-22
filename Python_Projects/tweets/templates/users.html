@@ -18,12 +18,12 @@
             </a>
             <a id="users" href="/users">Users</a>
             <div id="name">
-                <h3>Welcome, {{logged_user['first_name']}} {{logged_user['last_name']}}</h3>
-            </div>
+                <a href="/users/{{logged_user['id']}}"><h3>Welcome, {{logged_user['first_name']}} {{logged_user['last_name']}}</h3></a>            </div>
             <a id="logout" href="/logout">Logout</a>
         </div>
         <div id="main">
-            <table>
+            <h1>Users</h1>
+            <table id ="user_table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -34,7 +34,7 @@
                 <tbody>
                     {% for user in users %}
                     <tr>
-                        <td>{{user.first_name}} {{user.last_name}}</td>
+                        <td><a href="/users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a></td>
                         <td>{{user.email}}</td>
                         <td><a href="/users/{{user.id}}/follow">Follow</a></td>
                     </tr>

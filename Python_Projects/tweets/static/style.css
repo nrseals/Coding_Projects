@@ -46,5 +46,20 @@ a:link, a:visited{
     background-color: white;
 }
 #main{
+    min-height: 200px;
+    text-align: center;
+}
+table{
+    margin: 0 auto;
+    background-color: white;
+    width: 500px;
+}
+table, th, td{
+    border: solid 1px;
+}
+th{
+    background-color: skyblue;
+}
+#follower_list{
     text-align: center;
 }
