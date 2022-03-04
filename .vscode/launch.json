@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch QuickStart",
+            "request": "launch",
+            "mainClass": "QuickStart",
+            "projectName": ""
+        },
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/C#_Projects/app/bin/Debug/net6.0/app.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/C#_Projects/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}
