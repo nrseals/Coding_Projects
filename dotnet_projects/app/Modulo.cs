@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 //A simple application to calculate modulus 
+
 Console.WriteLine("Input num1");
 string num1S = Console.ReadLine();
 Console.WriteLine("Input num2");
