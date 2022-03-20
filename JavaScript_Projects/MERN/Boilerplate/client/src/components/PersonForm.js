@@ -1,26 +1,38 @@
-//imports packages dependencies
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'; 
-//save component to const 
-const PersonForm= () => {
-    //save key val pair of message, useState default message is "loading..."
-    const [ message, setMessage ] = useState("Loading...")
-    //useEffect makes call to api upon rendering
-    useEffect(()=>{
-        //axios makes request 
-        axios.get("http://localhost:8000/api")
-            //then save response from api as message from line 7
-            .then(res=>setMessage(res.data.message))
-            //if errors, log to console
+import React, { useState } from 'react'
+import axios from 'axios';
+const PersonForm = (props) => {
+    const {people, setPeople} = props; //this is new
+    const [firstName, setFirstName] = useState(""); 
+    const [lastName, setLastName] = useState("");
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:8000/api/people', {
+            firstName,    
+            lastName   
+        })
+            .then(res=>{
+                console.log(res); 
+                console.log(res.data);
+                // we will update the lifted state of our people array 
+                //    to include the current value in state plus the single 
+                //    new object created and returned from our post request. 
+                setPeople([...people, res.data]); //this is new
+            })
             .catch(err=>console.log(err))
-    }, []);
-    //JSX to be rendered 
+    }       // **** Our return/form will remain unchanged!
     return (
-        <div>
-            <h2>Message from the backend: {message}</h2>
-        </div>
+        <form onSubmit={onSubmitHandler}>
+            <p>
+                <label>First Name</label><br/>
+                <input type="text" onChange = {(e)=>setFirstName(e.target.value)}/>
+            </p>
+            <p>
+                <label>Last Name</label><br/>
+                <input type="text" onChange = {(e)=>setLastName(e.target.value)}/>
+            </p>
+            <input type="submit"/>
+        </form>
     )
 }
-//Export component
 export default PersonForm;
 
