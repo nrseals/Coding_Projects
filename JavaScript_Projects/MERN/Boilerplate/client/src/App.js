@@ -1,12 +1,19 @@
-import PersonForm from './components/PersonForm';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Main from './views/Main';
+import "./App.css";
+const App = () => {
 
-function App() {
   return (
-    <div className="App">
-      <PersonForm/>
+    <div className='App'>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Main />} path="/" />
+        </Routes>
+      </BrowserRouter>
     </div>
-  );
+  )
 }
-
 export default App;
+
