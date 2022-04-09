@@ -3,26 +3,25 @@ import './App.css';
 
 function App() {
   //useState to store data from backend
-  const [data, setData] = useState({});
+  const [apiData, setApiData] = useState({});
   // useEffect to make request to api, this will later use axios to querey db
   useEffect(() => {
     fetch("http://localhost:5000/items").then(
       res => res.json()
     ).then(
       data => {
-        setData(data)
-        console.log(data)
+        setApiData(data)
       }
-    )
+    ).catch(err=>console.log(err))
   }, [])
   return (
     <div className="App">
       { 
-        (typeof data.gigs === 'undefined') ? (
+        (typeof apiData.gigs === 'undefined') ? (
         <p>Loading . . . </p>
       ) : (
-        data.gigs.map((gig, i) => (
-          <p key={i}>{gig}</p>
+        apiData.gigs.map((gig) => (
+          <p>{gig}</p>
         ))
       )}
 

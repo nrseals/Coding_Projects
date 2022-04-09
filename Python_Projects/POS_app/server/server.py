@@ -13,15 +13,17 @@ SCHEMA = "solo_project"
 def getitems():
     items = {"items": ["item 1", "item 2", "item 3"]}
     db = connectToMySQL(SCHEMA)
-    gigsArray = db.query_db("SELECT name FROM gigs ORDER BY date ASC")
+    query = db.query_db("SELECT * FROM gigs ORDER BY date ASC")
     # SQL query returns array of objects
-    print(gigsArray)
+    print(query)
+    # return jsonify(gigsArray)
     # next block of code uses for loop to extract names from objects, and push them into a new array, then the array of name is assigned to a new dictonary with the key "gigs"
-    newArr = []
-    for object in gigsArray:
-        newArr.append(object['name'])
+    namesArr = []
+
+    for object in objArray:
+        namesArr.append(object['name'])
     gigs = {
-        "gigs": newArr
+        "gigs": namesArr
     }
     print(gigs)
     return gigs
