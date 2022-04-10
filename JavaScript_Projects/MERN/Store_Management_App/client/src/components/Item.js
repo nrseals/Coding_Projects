@@ -5,7 +5,7 @@ class Item extends React.Component{
         this.quantityInStock -= amount;
     }
     render() {
-        
+        <button><Item/></button>
     }
     //Remove from inventory
 }
