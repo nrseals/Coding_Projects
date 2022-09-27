@@ -1,0 +1,33 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    min-height: fit-content;
+}
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#card{
+    border: purple solid 2px;
+    text-align: center;
+    width: 225px;
+    margin: 3px;
+}
+#label{
+    text-align: center;
+}
+.placement{
+    margin: 2px;
+    max-height: fit-content;
+    /* border: gray solid 2px; */
+}
+.Reversed{
+    -webkit-transform:rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
