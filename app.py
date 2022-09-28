@@ -34,6 +34,10 @@ def eight_card_draw():
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 @app.route("/three")
 def three_cards():
     return render_template("page.html", cards=three_card_draw())
